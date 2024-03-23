@@ -91,7 +91,7 @@ app.get('/book/:id', (req, res) => {
 });
 
 // Add a new book
-app.post('/books', (req, res) => {
+app.post('/book', (req, res) => {
   const book = { id: Date.now(), ...req.body };
   books.push(book);
   res.status(201).json(book);
