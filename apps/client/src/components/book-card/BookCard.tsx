@@ -1,5 +1,6 @@
 import InfoIcon from '@mui/icons-material/Info';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -9,12 +10,17 @@ import {
   IconButton,
   ImageListItem,
   ImageListItemBar,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { BookCardProps, DescriptionDialogProps } from './BookCard.types';
 
 import useOpenState from '../../hooks/useOpenState';
+import { useNavigate } from 'react-router-dom';
+import { styles } from './BookCard.styles';
 
 const BookCard: React.FC<BookCardProps> = ({
+  id,
   image,
   title,
   author,
@@ -22,15 +28,28 @@ const BookCard: React.FC<BookCardProps> = ({
   description,
 }) => {
   const openState = useOpenState();
+  const navigate = useNavigate();
 
   return (
-    <ImageListItem>
+    <ImageListItem sx={{ position: 'relative' }}>
+      <Box sx={styles.layout}>
+        <Stack direction="row" spacing={4}>
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/edit-book/${id}`)}
+          >
+            <Typography>Edit Book</Typography>
+          </Button>
+        </Stack>
+      </Box>
+
       <img
         srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
         src={`${image}?w=248&fit=crop&auto=format`}
         alt={title}
         loading="lazy"
       />
+
       <ImageListItemBar
         title={title}
         subtitle={`By ${author} (${genre} genre)`}
