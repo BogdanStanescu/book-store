@@ -6,17 +6,9 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
-import Description from './Description';
-
-interface BookCardProps {
-  image: string;
-  title: string;
-  genre: string;
-  author: string;
-  description: string;
-}
-
-type SubheaderInfo = Pick<BookCardProps, 'author' | 'genre'>;
+import Description from '../Description';
+import { styles } from './BookCard.styles';
+import { BookCardProps, SubheaderInfo } from './BookCard.types';
 
 const MAX_DESCRIPTION_LENGTH = 150;
 
@@ -28,14 +20,8 @@ export const BookCard: React.FC<BookCardProps> = ({
   author,
 }) => {
   return (
-    <Card sx={{ maxWidth: 345, boxShadow: '0 3px 10px rgba(0, 0, 0, 0.2)' }}>
-      <CardMedia
-        component="img"
-        height="194"
-        sx={{ pt: 2 }}
-        image={image}
-        alt={title}
-      />
+    <Card sx={styles.card}>
+      <CardMedia component="img" image={image} alt={title} sx={styles.media} />
 
       <CardHeader
         title={title}
