@@ -1,8 +1,18 @@
-import { Alert, Box, Button, Skeleton, Stack, TextField } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Skeleton,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+} from '@mui/material';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { useGetBook, useUpdateBook } from '../../hooks';
+import { useState } from 'react';
 
 const bookSchema = yup.object().shape({
   id: yup.string(),
@@ -19,6 +29,8 @@ const EditBookForm = () => {
   const { id } = useParams() as { id: string };
   const { updateBook } = useUpdateBook({ id });
 
+  const navigate = useNavigate();
+  const [value, setValue] = useState('one');
   const bookResponse = useGetBook<Book>({ id });
 
   if (bookResponse.isLoading) {
@@ -29,13 +41,26 @@ const EditBookForm = () => {
     return <Error />;
   }
 
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
   const handleSubmit = (values: Book, actions: FormikHelpers<Book>) => {
     updateBook(values);
     actions.resetForm();
   };
 
   return (
-    <Box sx={{ px: 4, py: 2, width: '100%' }}>
+    <Box sx={{ width: '100%', px: 4, pt: 2, pb: 10 }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        textColor="secondary"
+        indicatorColor="secondary"
+      >
+        <Tab value="one" label="Books" onClick={() => navigate('/')} />
+      </Tabs>
+
       <Formik
         initialValues={bookResponse.data as Book}
         validationSchema={bookSchema}
