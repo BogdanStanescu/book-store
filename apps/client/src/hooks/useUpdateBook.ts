@@ -7,9 +7,7 @@ export const useUpdateBook = ({ id }: { id: string }) => {
   const URL = `http://localhost:3000/book/${id}`;
 
   const fetcher = async (url: string) => {
-    const response = await axios.put(url, {
-      title: 'New Title',
-    });
+    const response = await axios.put(url);
     return response.data;
   };
 
