@@ -1,9 +1,10 @@
-import axios from 'axios';
 import useSWR from 'swr';
 import BookCard from '../book-card/BookCard';
 import ImageList from '@mui/material/ImageList';
 import { BookCardProps } from '../book-card/BookCard.types';
 import { Alert, Skeleton, Stack } from '@mui/material';
+import { fetcher } from '../../utils/fetcher';
+import { styles } from './BookList.styles';
 
 export default function BookList() {
   const { isLoading, data, error } = useBooks();
@@ -21,7 +22,7 @@ export default function BookList() {
   }
 
   return (
-    <ImageList sx={{ width: '100%', height: '100vh', pb: 6 }}>
+    <ImageList sx={styles.bookList}>
       {(data || []).map((item) => (
         <BookCard key={item.id} {...item} />
       ))}
@@ -47,7 +48,7 @@ const Loading = () => {
 
 const Error = () => {
   return (
-    <Alert severity="error" variant="filled" sx={{ m: 4 }}>
+    <Alert severity="error" variant="filled" sx={styles.errorAlert}>
       Something went wrong while retrieving the list of books. Please try again
       later.
     </Alert>
@@ -56,20 +57,18 @@ const Error = () => {
 
 const EmptyData = () => {
   return (
-    <Alert severity="info" variant="filled" sx={{ m: 4 }}>
+    <Alert severity="info" variant="filled" sx={styles.emptyDataAlert}>
       There are no books available at the moment.
     </Alert>
   );
 };
 
-const fetcher = axios
-  .get('http://localhost:3000/books')
-  .then((res) => res.data);
-
 const useBooks = () => {
+  const URL = 'http://localhost:3000/books';
+
   const { data, error, isLoading } = useSWR<BookCardProps[]>(
     '/books',
-    async () => await fetcher
+    async () => await fetcher(URL)
   );
 
   return { data, isLoading, error };
