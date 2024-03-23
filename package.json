@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "npx nx serve book-store"
+    "start-client": "cd apps/client && npx nx serve book-store",
+    "start-server": "cd apps/server && npx nx serve express"
   },
   "private": true,
   "dependencies": {
