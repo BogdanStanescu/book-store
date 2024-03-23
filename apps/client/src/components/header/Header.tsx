@@ -14,7 +14,7 @@ const Header = () => {
           Book Store
         </Typography>
 
-        <Box sx={{ flexGrow: 1 }} />
+        <Box sx={{ flex: 1 }} />
 
         <SignIn />
         <SignOut />
