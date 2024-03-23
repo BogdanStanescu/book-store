@@ -1,6 +1,6 @@
 import { Alert, Box, Button, Skeleton, Stack, TextField } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { useGetBook, useUpdateBook } from '../../hooks';
 
@@ -17,8 +17,10 @@ type Book = yup.InferType<typeof bookSchema>;
 
 const EditBookForm = () => {
   const { id } = useParams() as { id: string };
-  const bookResponse = useGetBook<Book>({ id });
   const { updateBook } = useUpdateBook({ id });
+
+  const navigate = useNavigate();
+  const bookResponse = useGetBook<Book>({ id });
 
   if (bookResponse.isLoading) {
     return <Loading />;
@@ -29,8 +31,11 @@ const EditBookForm = () => {
   }
 
   const handleSubmit = (values: Book, actions: FormikHelpers<Book>) => {
+    actions.setSubmitting(true);
+
     updateBook(values);
     actions.resetForm();
+    navigate(0);
   };
 
   return (

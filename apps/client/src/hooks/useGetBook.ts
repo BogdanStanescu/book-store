@@ -6,10 +6,7 @@ export const useGetBook = <T>({ id }: { id: string }) => {
 
   const { data, error, isLoading, mutate } = useSWR<T>(
     `book/${id}`,
-    async () => await fetcher(URL),
-    {
-      refreshInterval: 0,
-    }
+    async () => await fetcher(URL)
   );
 
   const revalidate = () => {
