@@ -1,5 +1,5 @@
 export interface BookCardProps {
-  id?: string;
+  id: string;
   image: string;
   title: string;
   genre: string;

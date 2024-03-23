@@ -23,7 +23,7 @@ export default function BookList() {
   return (
     <ImageList sx={styles.bookList}>
       {(data || []).map((item) => (
-        <BookCard key={item.id} {...item} />
+        <BookCard key={item.id} props={item} />
       ))}
     </ImageList>
   );

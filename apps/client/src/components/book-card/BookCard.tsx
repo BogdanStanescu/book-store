@@ -1,4 +1,6 @@
+import React from 'react';
 import InfoIcon from '@mui/icons-material/Info';
+import useOpenState from '../../hooks/useOpenState';
 import {
   Box,
   Button,
@@ -10,53 +12,100 @@ import {
   IconButton,
   ImageListItem,
   ImageListItemBar,
-  Stack,
-  Typography,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { BookCardProps, DescriptionDialogProps } from './BookCard.types';
-
-import useOpenState from '../../hooks/useOpenState';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { useNavigate } from 'react-router-dom';
-import { styles } from './BookCard.styles';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const BookCard: React.FC<BookCardProps> = ({
-  id,
-  image,
-  title,
-  author,
-  genre,
-  description,
-}) => {
+const BookCard: React.FC<{ props: BookCardProps }> = ({ props }) => {
   const openState = useOpenState();
   const navigate = useNavigate();
 
+  const handleDeleteBook = (id: string) => {
+    console.log('Deleting book with id: ', id);
+  };
+
   return (
     <ImageListItem sx={{ position: 'relative' }}>
-      <Box sx={styles.layout}>
-        <Stack direction="row" spacing={4}>
-          <Button
-            variant="contained"
-            onClick={() => navigate(`/edit-book/${id}`)}
-          >
-            <Typography>Edit Book</Typography>
-          </Button>
-        </Stack>
+      <Box sx={{ position: 'relative' }}>
+        <Box
+          sx={{
+            width: '100%',
+            height: '50px',
+            backgroundColor: 'black',
+            position: 'absolute',
+            top: '0',
+            opacity: '0.5',
+          }}
+        />
+
+        <PopupState variant="popover" popupId="demo-popup-menu">
+          {(popupState) => (
+            <React.Fragment>
+              <Button
+                variant="text"
+                {...bindTrigger(popupState)}
+                sx={{
+                  position: 'absolute',
+                  right: 0,
+                  color: 'white',
+                  top: 5,
+                }}
+              >
+                <MoreVertIcon />
+              </Button>
+              <Menu {...bindMenu(popupState)}>
+                <MenuItem
+                  onClick={() => {
+                    popupState.close();
+                    navigate(`/add-book`);
+                  }}
+                >
+                  Add Book
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    popupState.close();
+                    navigate(`/edit-book/${props.id}`);
+                  }}
+                >
+                  Edit Book
+                </MenuItem>
+
+                <MenuItem
+                  onClick={() => {
+                    popupState.close();
+                    alert(
+                      `Are you sure you want to delete this book? ${props.id}`
+                    );
+                  }}
+                >
+                  Delete Book
+                </MenuItem>
+              </Menu>
+            </React.Fragment>
+          )}
+        </PopupState>
       </Box>
 
       <img
-        srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
-        src={`${image}?w=248&fit=crop&auto=format`}
-        alt={title}
+        srcSet={`${props.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
+        src={`${props.image}?w=248&fit=crop&auto=format`}
+        alt={props.title}
         loading="lazy"
       />
 
       <ImageListItemBar
-        title={title}
-        subtitle={`By ${author} (${genre} genre)`}
+        title={props.title}
+        subtitle={`By ${props.author} (${props.genre} genre)`}
         actionIcon={
           <IconButton
             sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-            title={`info about: ${title}`}
+            title={`info about: ${props.title}`}
             onClick={openState.handleOpen}
           >
             <InfoIcon />
@@ -67,10 +116,7 @@ const BookCard: React.FC<BookCardProps> = ({
       <DescriptionDialog
         open={openState.open}
         handleClose={openState.handleClose}
-        title={title}
-        author={author}
-        genre={genre}
-        description={description}
+        {...props}
       />
     </ImageListItem>
   );
