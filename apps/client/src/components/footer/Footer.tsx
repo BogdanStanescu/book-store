@@ -9,6 +9,7 @@ const Footer = () => {
         <Link
           color="inherit"
           href="https://www.linkedin.com/in/bogdanstanescu/"
+          target="_blank"
         >
           Stănescu Bogdan
         </Link>
