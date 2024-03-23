@@ -19,7 +19,6 @@ const EditBookForm = () => {
   const { id } = useParams() as { id: string };
   const { updateBook } = useUpdateBook({ id });
 
-  const navigate = useNavigate();
   const bookResponse = useGetBook<Book>({ id });
 
   if (bookResponse.isLoading) {
@@ -31,11 +30,8 @@ const EditBookForm = () => {
   }
 
   const handleSubmit = (values: Book, actions: FormikHelpers<Book>) => {
-    actions.setSubmitting(true);
-
     updateBook(values);
     actions.resetForm();
-    navigate(0);
   };
 
   return (
