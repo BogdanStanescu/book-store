@@ -81,6 +81,15 @@ app.get('/books', (req, res) => {
   console.log('books', res.json(books));
 });
 
+app.get('/book/:id', (req, res) => {
+  const book = books.find((book) => book.id === parseInt(req.params.id));
+  if (book) {
+    res.json(book);
+  } else {
+    res.status(404).json({ message: 'Book not found' });
+  }
+});
+
 // Add a new book
 app.post('/books', (req, res) => {
   const book = { id: Date.now(), ...req.body };
