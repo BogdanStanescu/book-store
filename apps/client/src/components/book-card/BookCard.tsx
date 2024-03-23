@@ -1,47 +1,93 @@
+import InfoIcon from '@mui/icons-material/Info';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Typography,
-  Divider,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  ImageListItem,
+  ImageListItemBar,
 } from '@mui/material';
-import Description from '../Description';
-import { styles } from './BookCard.styles';
-import { BookCardProps, SubheaderInfo } from './BookCard.types';
+import { BookCardProps, DescriptionDialogProps } from './BookCard.types';
 
-const MAX_DESCRIPTION_LENGTH = 150;
+import useOpenState from '../../hooks/useOpenState';
 
-export const BookCard: React.FC<BookCardProps> = ({
-  title,
-  genre,
+const BookCard: React.FC<BookCardProps> = ({
   image,
-  description,
+  title,
   author,
+  genre,
+  description,
 }) => {
-  return (
-    <Card sx={styles.card}>
-      <CardMedia component="img" image={image} alt={title} sx={styles.media} />
+  const openState = useOpenState();
 
-      <CardHeader
+  return (
+    <ImageListItem>
+      <img
+        srcSet={`${image}?w=248&fit=crop&auto=format&dpr=2 2x`}
+        src={`${image}?w=248&fit=crop&auto=format`}
+        alt={title}
+        loading="lazy"
+      />
+      <ImageListItemBar
         title={title}
-        subheader={<Subheader author={author} genre={genre} />}
+        subtitle={`By ${author} (${genre} genre)`}
+        actionIcon={
+          <IconButton
+            sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+            title={`info about: ${title}`}
+            onClick={openState.handleOpen}
+          >
+            <InfoIcon />
+          </IconButton>
+        }
       />
 
-      <Divider />
-
-      <CardContent>
-        <Description text={description} maxLength={MAX_DESCRIPTION_LENGTH} />
-      </CardContent>
-    </Card>
+      <DescriptionDialog
+        open={openState.open}
+        handleClose={openState.handleClose}
+        title={title}
+        author={author}
+        genre={genre}
+        description={description}
+      />
+    </ImageListItem>
   );
 };
 
-const Subheader: React.FC<SubheaderInfo> = ({ author, genre }) => {
+const DescriptionDialog: React.FC<DescriptionDialogProps> = ({
+  open,
+  handleClose,
+  title,
+  author,
+  genre,
+  description,
+}) => {
   return (
-    <Typography variant="body2" color="textSecondary">
-      {author} • {genre}
-    </Typography>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {`${title} by ${author} (${genre})`}
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {description}
+        </DialogContentText>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleClose} autoFocus>
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
