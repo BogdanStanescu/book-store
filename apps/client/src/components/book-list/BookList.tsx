@@ -1,13 +1,12 @@
-import useSWR from 'swr';
 import BookCard from '../book-card/BookCard';
 import ImageList from '@mui/material/ImageList';
 import { BookCardProps } from '../book-card/BookCard.types';
 import { Alert, Skeleton, Stack } from '@mui/material';
-import { fetcher } from '../../utils/fetcher';
 import { styles } from './BookList.styles';
+import { useGetBooks } from '../../hooks';
 
 export default function BookList() {
-  const { isLoading, data, error } = useBooks();
+  const { isLoading, data, error } = useGetBooks<BookCardProps[]>();
 
   if (isLoading) {
     return <Loading />;
@@ -61,15 +60,4 @@ const EmptyData = () => {
       There are no books available at the moment.
     </Alert>
   );
-};
-
-const useBooks = () => {
-  const URL = 'http://localhost:3000/books';
-
-  const { data, error, isLoading } = useSWR<BookCardProps[]>(
-    '/books',
-    async () => await fetcher(URL)
-  );
-
-  return { data, isLoading, error };
 };
