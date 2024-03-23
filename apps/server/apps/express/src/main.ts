@@ -1,7 +1,16 @@
 import express from 'express';
 import * as path from 'path';
+import cors from 'cors';
 
 const app = express();
+const allowedOrigins = ['http://localhost:3001'];
+app.use(
+  cors({
+    origin: allowedOrigins,
+    optionsSuccessStatus: 200, // some legacy browsers require this option
+  })
+);
+app.use(express.json());
 
 let books = [
   {
@@ -67,7 +76,9 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Get all books
 app.get('/books', (req, res) => {
+  console.log('got here');
   res.json(books);
+  console.log('books', res.json(books));
 });
 
 // Add a new book
@@ -97,6 +108,6 @@ app.delete('/books/:id', (req, res) => {
 const port = process.env.SERVER_PORT || 3000;
 
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  console.log(`Listening at http://localhost:${port}`);
 });
 server.on('error', console.error);
