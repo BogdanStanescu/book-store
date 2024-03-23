@@ -8,6 +8,10 @@ export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/book-store',
 
+  define: {
+    __VALUE__: `"${process.env.VALUE}"`,
+  },
+
   server: {
     port: 3001,
     host: 'localhost',
