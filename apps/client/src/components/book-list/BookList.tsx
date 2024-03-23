@@ -5,7 +5,7 @@ import { itemData } from './mockData';
 
 export default function BookList() {
   return (
-    <ImageList sx={{ width: '100%', height: '100vh' }}>
+    <ImageList sx={{ width: '100%', height: '100vh', pb: 6 }}>
       <ImageListItem key="Subheader" cols={2}></ImageListItem>
       {itemData.map((item) => (
         <BookCard key={item.id} {...item} />

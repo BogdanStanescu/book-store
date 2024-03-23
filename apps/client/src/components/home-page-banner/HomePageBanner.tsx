@@ -4,7 +4,11 @@ import { styles } from './HomePageBanner.styles';
 const HomePageBanner = () => {
   return (
     <Box sx={styles.container}>
-      <img src="src/assets/library-cover.jpg" alt="Book Store" />
+      <img
+        src="src/assets/library-cover.jpg"
+        alt="Book Store"
+        style={{ width: '100%' }}
+      />
       <Box sx={styles.overlay}>
         <Typography
           variant="h2"
