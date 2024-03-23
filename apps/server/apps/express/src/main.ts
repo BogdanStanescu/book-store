@@ -76,13 +76,13 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Get all books
 app.get('/books', (req, res) => {
-  console.log('got here');
   res.json(books);
   console.log('books', res.json(books));
 });
 
 app.get('/book/:id', (req, res) => {
   const book = books.find((book) => book.id === parseInt(req.params.id));
+
   if (book) {
     res.json(book);
   } else {
@@ -98,7 +98,7 @@ app.post('/books', (req, res) => {
 });
 
 // Update a book
-app.put('/books/:id', (req, res) => {
+app.put('/book/:id', (req, res) => {
   const index = books.findIndex((book) => book.id === parseInt(req.params.id));
   if (index >= 0) {
     books[index] = { ...books[index], ...req.body };
