@@ -1,4 +1,4 @@
-import { Button, Paper, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { styles } from './ErrorFallback.styles';
 
@@ -6,7 +6,7 @@ const ErrorFallback = () => {
   const navigate = useNavigate();
 
   return (
-    <Paper sx={styles.paper}>
+    <Box sx={styles.paper}>
       <Typography variant="h5" gutterBottom sx={styles.typography}>
         Oops! Something went wrong.
       </Typography>
@@ -18,7 +18,7 @@ const ErrorFallback = () => {
       <Button variant="contained" color="primary" onClick={() => navigate('/')}>
         Go to Homepage
       </Button>
-    </Paper>
+    </Box>
   );
 };
 
