@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { useGetBook, useUpdateBook } from '../../hooks';
 import { useState } from 'react';
+import { useDeleteBook } from '../../hooks/useDeleteBook';
 
 const bookSchema = yup.object().shape({
   id: yup.string(),
@@ -32,6 +33,7 @@ const EditBookForm = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState('one');
   const bookResponse = useGetBook<Book>({ id });
+  const { deleteBook } = useDeleteBook({ id });
 
   if (bookResponse.isLoading) {
     return <Loading />;
@@ -48,6 +50,11 @@ const EditBookForm = () => {
   const handleSubmit = (values: Book, actions: FormikHelpers<Book>) => {
     updateBook(values);
     actions.resetForm();
+  };
+
+  const handleDeleteBook = () => {
+    deleteBook({ ...(bookResponse.data as Required<Book>) });
+    navigate('/');
   };
 
   return (
@@ -120,9 +127,19 @@ const EditBookForm = () => {
               error={!!errors.description}
             />
 
-            <Button type="submit" variant="contained" color="primary">
-              Save Book
-            </Button>
+            <Stack spacing={2} direction="row">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleDeleteBook}
+              >
+                Delete Book
+              </Button>
+
+              <Button type="submit" variant="contained" color="primary">
+                Save Book
+              </Button>
+            </Stack>
           </Form>
         )}
       </Formik>

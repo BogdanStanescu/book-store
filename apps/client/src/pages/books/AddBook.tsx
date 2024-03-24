@@ -23,7 +23,6 @@ type Book = yup.InferType<typeof bookSchema>;
 
 const AddBookForm = () => {
   const { addBook } = useAddBook();
-
   const navigate = useNavigate();
   const [value, setValue] = useState('one');
 
@@ -34,6 +33,7 @@ const AddBookForm = () => {
   const handleSubmit = (values: Book, actions: FormikHelpers<Book>) => {
     addBook(values);
     actions.resetForm();
+    navigate('/');
   };
 
   return (

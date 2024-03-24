@@ -24,10 +24,6 @@ const BookCard: React.FC<{ props: BookCardProps }> = ({ props }) => {
   const openState = useOpenState();
   const navigate = useNavigate();
 
-  const handleDeleteBook = (id: string) => {
-    console.log('Deleting book with id: ', id);
-  };
-
   return (
     <ImageListItem sx={{ position: 'relative' }}>
       <Box sx={{ position: 'relative' }}>
@@ -61,15 +57,6 @@ const BookCard: React.FC<{ props: BookCardProps }> = ({ props }) => {
                 <MenuItem
                   onClick={() => {
                     popupState.close();
-                    navigate(`/add-book`);
-                  }}
-                >
-                  Add Book
-                </MenuItem>
-
-                <MenuItem
-                  onClick={() => {
-                    popupState.close();
                     navigate(`/edit-book/${props.id}`);
                   }}
                 >
@@ -79,9 +66,7 @@ const BookCard: React.FC<{ props: BookCardProps }> = ({ props }) => {
                 <MenuItem
                   onClick={() => {
                     popupState.close();
-                    alert(
-                      `Are you sure you want to delete this book? ${props.id}`
-                    );
+                    navigate(`/edit-book/${props.id}`);
                   }}
                 >
                   Delete Book
