@@ -20,9 +20,11 @@ export default function BookList() {
     return <EmptyData />;
   }
 
+  const books = data.filter((item) => Object.keys(item).length > 1);
+
   return (
     <ImageList sx={styles.bookList}>
-      {(data || []).map((item) => (
+      {books.map((item) => (
         <BookCard key={item.id} props={item} />
       ))}
     </ImageList>
