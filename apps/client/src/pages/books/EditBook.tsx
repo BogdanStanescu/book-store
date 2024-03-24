@@ -2,6 +2,11 @@ import {
   Alert,
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Skeleton,
   Stack,
   Tab,
@@ -12,7 +17,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { useGetBook, useUpdateBook } from '../../hooks';
-import { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useDeleteBook } from '../../hooks/useDeleteBook';
 
 const bookSchema = yup.object().shape({
@@ -32,8 +37,8 @@ const EditBookForm = () => {
 
   const navigate = useNavigate();
   const [value, setValue] = useState('one');
+  const [open, setOpen] = React.useState(false);
   const bookResponse = useGetBook<Book>({ id });
-  const { deleteBook } = useDeleteBook({ id });
 
   if (bookResponse.isLoading) {
     return <Loading />;
@@ -53,13 +58,14 @@ const EditBookForm = () => {
     navigate('/');
   };
 
-  const handleDeleteBook = () => {
-    deleteBook({ ...(bookResponse.data as Required<Book>) });
-    navigate('/');
-  };
-
   return (
     <Box sx={{ width: '100%', px: 4, pt: 2, pb: 10 }}>
+      <DeleteBookDialog
+        open={open}
+        setOpen={setOpen}
+        book={bookResponse.data as Required<Book>}
+      />
+
       <Tabs
         value={value}
         onChange={handleChange}
@@ -132,7 +138,7 @@ const EditBookForm = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleDeleteBook}
+                onClick={() => setOpen(true)}
               >
                 Delete Book
               </Button>
@@ -145,6 +151,57 @@ const EditBookForm = () => {
         )}
       </Formik>
     </Box>
+  );
+};
+
+const DeleteBookDialog = ({
+  open,
+  setOpen,
+  book,
+}: {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  book: Required<Book>;
+}) => {
+  const { id } = useParams() as { id: string };
+  const { deleteBook } = useDeleteBook({ id });
+  const navigate = useNavigate();
+
+  const handleDeleteBook = () => {
+    setOpen(false);
+    deleteBook(book);
+    navigate('/');
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        Are you sure you want to delete this book?
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          This action cannot be undone. Are you sure you want to delete this
+          book? Once deleted, it cannot be recovered. Please confirm.
+        </DialogContentText>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleDeleteBook} autoFocus>
+          Delete
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
