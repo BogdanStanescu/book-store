@@ -50,6 +50,7 @@ const EditBookForm = () => {
   const handleSubmit = (values: Book, actions: FormikHelpers<Book>) => {
     updateBook(values);
     actions.resetForm();
+    navigate('/');
   };
 
   const handleDeleteBook = () => {
