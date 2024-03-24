@@ -77,7 +77,6 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 // Get all books
 app.get('/books', (req, res) => {
   res.json(books);
-  console.log('books', res.json(books));
 });
 
 app.get('/book/:id', (req, res) => {
@@ -109,7 +108,7 @@ app.put('/book/:id', (req, res) => {
 });
 
 // Delete a book
-app.delete('/books/:id', (req, res) => {
+app.delete('/book/:id', (req, res) => {
   books = books.filter((book) => book.id !== parseInt(req.params.id));
   res.status(204).send();
 });

@@ -1,7 +1,4 @@
-import { Box } from '@mui/material';
 import { useAuth } from '@clerk/clerk-react';
-import Header from '../components/header/Header';
-import Footer from '../components/footer/Footer';
 import { Routes } from '../Routes';
 
 const App = () => {
@@ -11,13 +8,7 @@ const App = () => {
     return null;
   }
 
-  return (
-    <Box>
-      <Header />
-      <Routes />
-      <Footer />
-    </Box>
-  );
+  return <Routes />;
 };
 
 export default App;
