@@ -113,7 +113,7 @@ app.delete('/book/:id', (req, res) => {
   res.status(204).send();
 });
 
-const port = process.env.SERVER_PORT || 3000;
+const port = process.env.VITE_SERVER_PORT || 3000;
 
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);

@@ -1,21 +1,17 @@
-import { StrictMode } from 'react';
+import App from './app/app';
 import * as ReactDOM from 'react-dom/client';
-import App from './app/App';
-import { ClerkProvider } from '@clerk/clerk-react';
+import ToastProvider from './providers/ToastProvider';
+import ClerkProvider from './providers/ClerkProvider';
+import { StrictMode } from 'react';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key');
-}
-
 root.render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+    <ClerkProvider>
+      <ToastProvider />
       <App />
     </ClerkProvider>
   </StrictMode>
