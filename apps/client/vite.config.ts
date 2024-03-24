@@ -3,14 +3,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import envCompatible from 'vite-plugin-env-compatible';
 
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/book-store',
-
-  define: {
-    __VALUE__: `"${process.env.VALUE}"`,
-  },
 
   server: {
     port: 3001,
@@ -22,7 +19,8 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [react(), nxViteTsPaths(), nodePolyfills()],
+  envPrefix: 'VITE_',
+  plugins: [react(), nxViteTsPaths(), nodePolyfills(), envCompatible()],
 
   // Uncomment this if you are using workers.
   // worker: {
