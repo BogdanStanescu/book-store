@@ -4,10 +4,14 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
+  useAuth,
 } from '@clerk/clerk-react';
 import { Link, useNavigate } from 'react-router-dom';
+import ShouldShow from '../should-show/ShouldShow';
 
 const Header = () => {
+  const { isSignedIn } = useAuth();
+
   const navigate = useNavigate();
   return (
     <AppBar position="static">
@@ -18,13 +22,15 @@ const Header = () => {
 
         <Box sx={{ flex: 1 }} />
 
-        <Button
-          variant="text"
-          sx={{ fontSize: '1rem', color: 'white', mr: 1.5 }}
-          onClick={() => navigate('/add-book')}
-        >
-          Add Book
-        </Button>
+        <ShouldShow condition={!!isSignedIn}>
+          <Button
+            variant="text"
+            sx={{ fontSize: '1rem', color: 'white', mr: 1.5 }}
+            onClick={() => navigate('/add-book')}
+          >
+            Add Book
+          </Button>
+        </ShouldShow>
 
         <SignIn />
         <SignOut />
