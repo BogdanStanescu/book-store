@@ -1,8 +1,9 @@
 import Home from './pages/Home';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import NotFound from './pages/404';
+import Layout from './pages/Layout';
 import EditBookForm from './pages/books/EditBook';
 import AddBookForm from './pages/books/AddBook';
-import Layout from './pages/Layout';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
 
