@@ -5,22 +5,22 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/clerk-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
-        <Typography variant="h6" component="div">
+        <Link to="/" style={{ textDecoration: 'none', fontSize: '1.25rem' }}>
           Book Store
-        </Typography>
+        </Link>
 
         <Box sx={{ flex: 1 }} />
 
         <Button
           variant="text"
-          sx={{ fontSize: '14px', color: 'white', mr: 1.5 }}
+          sx={{ fontSize: '1rem', color: 'white', mr: 1.5 }}
           onClick={() => navigate('/add-book')}
         >
           Add Book
