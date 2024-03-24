@@ -19,63 +19,48 @@ import { BookCardProps, DescriptionDialogProps } from './BookCard.types';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { useNavigate } from 'react-router-dom';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { styles } from './BookCard.styles';
 
 const BookCard: React.FC<{ props: BookCardProps }> = ({ props }) => {
   const openState = useOpenState();
   const navigate = useNavigate();
 
   return (
-    <ImageListItem sx={{ position: 'relative' }}>
-      <Box sx={{ position: 'relative' }}>
-        <Box
-          sx={{
-            width: '100%',
-            height: '50px',
-            backgroundColor: 'black',
-            position: 'absolute',
-            top: '0',
-            opacity: '0.5',
-          }}
-        />
+    <ImageListItem sx={styles.imageListItem}>
+      <Box sx={styles.overlay} />
 
-        <PopupState variant="popover" popupId="demo-popup-menu">
-          {(popupState) => (
-            <React.Fragment>
-              <Button
-                variant="text"
-                {...bindTrigger(popupState)}
-                sx={{
-                  position: 'absolute',
-                  right: 0,
-                  color: 'white',
-                  top: 5,
+      <PopupState variant="popover" popupId="demo-popup-menu">
+        {(popupState) => (
+          <React.Fragment>
+            <Button
+              variant="text"
+              {...bindTrigger(popupState)}
+              sx={styles.menuButton}
+            >
+              <MoreVertIcon />
+            </Button>
+            <Menu {...bindMenu(popupState)}>
+              <MenuItem
+                onClick={() => {
+                  popupState.close();
+                  navigate(`/edit-book/${props.id}`);
                 }}
               >
-                <MoreVertIcon />
-              </Button>
-              <Menu {...bindMenu(popupState)}>
-                <MenuItem
-                  onClick={() => {
-                    popupState.close();
-                    navigate(`/edit-book/${props.id}`);
-                  }}
-                >
-                  Edit Book
-                </MenuItem>
+                Edit Book
+              </MenuItem>
 
-                <MenuItem
-                  onClick={() => {
-                    popupState.close();
-                    navigate(`/edit-book/${props.id}`);
-                  }}
-                >
-                  Delete Book
-                </MenuItem>
-              </Menu>
-            </React.Fragment>
-          )}
-        </PopupState>
-      </Box>
+              <MenuItem
+                onClick={() => {
+                  popupState.close();
+                  navigate(`/edit-book/${props.id}`);
+                }}
+              >
+                Delete Book
+              </MenuItem>
+            </Menu>
+          </React.Fragment>
+        )}
+      </PopupState>
 
       <img
         srcSet={`${props.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
@@ -89,11 +74,11 @@ const BookCard: React.FC<{ props: BookCardProps }> = ({ props }) => {
         subtitle={`By ${props.author} (${props.genre} genre)`}
         actionIcon={
           <IconButton
-            sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+            sx={styles.actionIcon}
             title={`info about: ${props.title}`}
             onClick={openState.handleOpen}
           >
-            <InfoIcon />
+            <InfoIcon sx={styles.infoIcon} />
           </IconButton>
         }
       />

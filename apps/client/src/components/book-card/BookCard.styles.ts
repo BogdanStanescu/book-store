@@ -1,32 +1,29 @@
 export const styles = {
-  card: {
-    maxWidth: 345,
-    boxShadow: '0 3px 10px rgba(0, 0, 0, 0.2)',
-    mt: 2,
-    mx: 2,
+  imageListItem: {
+    position: 'relative',
   },
 
-  layout: {
+  overlay: {
     position: 'absolute',
     top: 0,
-    left: 0,
     width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 0,
-    transition: 'opacity 0.3s',
-    '&:hover': {
-      opacity: 1,
-    },
+    height: '50px',
+    backgroundColor: 'black',
+    opacity: 0.5,
   },
 
-  media: {
-    height: '300px',
-    pt: 2,
-    px: 2,
+  menuButton: {
+    position: 'absolute',
+    right: 0,
+    color: 'white',
+    top: 5,
+  },
+
+  actionIcon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+  },
+
+  infoIcon: {
+    color: 'white',
   },
 };
