@@ -3,4 +3,4 @@ export * from './useGetBook';
 export * from './useGetBooks';
 export * from './useUpdateBook';
 export * from './useAddBook';
-// export * from './useDeleteBook';
+export * from './useDeleteBook';

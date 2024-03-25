@@ -16,9 +16,8 @@ import {
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
-import { useGetBook, useUpdateBook } from '../../hooks';
+import { useDeleteBook, useGetBook, useUpdateBook } from '../../hooks';
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useDeleteBook } from '../../hooks/useDeleteBook';
 
 const bookSchema = yup.object().shape({
   id: yup.string(),
