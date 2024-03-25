@@ -6,8 +6,11 @@ import axios from 'axios';
  * @param url - The URL to fetch data from.
  * @returns A Promise that resolves to the fetched data.
  */
-export const fetcher = async (url: string) => {
-  const response = await axios.get(url);
+export const fetcher = async (
+  url: string,
+  type: 'get' | 'put' | 'delete' | 'post'
+) => {
+  const response = await axios[type](url);
 
   return response.data;
 };

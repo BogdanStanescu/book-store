@@ -6,7 +6,7 @@ export const useGetBooks = <T>() => {
 
   const { data, error, isLoading } = useSWR<T>(
     '/books',
-    async () => await fetcher(URL)
+    async () => await fetcher(URL, 'get')
   );
 
   return { data, isLoading, error };

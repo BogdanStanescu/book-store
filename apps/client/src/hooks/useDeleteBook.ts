@@ -2,16 +2,12 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { BookCardProps } from '../components/book-card/BookCard.types';
+import { fetcher } from '../utils';
 
 export const useDeleteBook = ({ id }: { id: string }) => {
   const URL = `http://localhost:3000/book/${id}`;
 
-  const fetcher = async (url: string) => {
-    const response = await axios.delete(url);
-    return response.data;
-  };
-
-  const { mutate } = useSWR(URL, async () => await fetcher(URL));
+  const { mutate } = useSWR(URL, async () => await fetcher(URL, 'delete'));
 
   const deleteBook = async (book: BookCardProps) => {
     try {
